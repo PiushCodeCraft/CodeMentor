@@ -7,9 +7,10 @@ import { generateCodeReview } from '../services/aiService.js';
 
 dotenv.config();
 
-const MONGO_URI =
-  process.env.MONGO_URI ||
-  'mongodb+srv://piushsaha162_db_user:0mVVO6QFmn8Z2tYQ@codementor-cluster.kgjq5k6.mongodb.net/';
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
+  throw new Error('MONGO_URI is missing from .env file');
+}
 
 export const seedDatabase = async () => {
   try {
