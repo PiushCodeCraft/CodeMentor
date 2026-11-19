@@ -74,7 +74,7 @@ export default function NotificationBell() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition cursor-pointer"
+        className="relative p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-lg transition cursor-pointer"
         title="Notifications"
       >
         <span className="text-base">🔔</span>
@@ -87,23 +87,23 @@ export default function NotificationBell() {
 
       {/* Dropdown Panel */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl py-3 z-50 backdrop-blur">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 border border-slate-800 rounded-2xl shadow-lg py-3 z-50">
           <div className="px-4 pb-2 border-b border-slate-800 flex items-center justify-between">
-            <span className="font-bold text-sm text-white">Notifications</span>
+            <span className="font-bold text-sm text-slate-100">Notifications</span>
             {unreadCount > 0 && (
               <button
                 onClick={handleMarkAllRead}
                 disabled={loading}
-                className="text-xs text-indigo-400 hover:text-indigo-300 transition cursor-pointer"
+                className="text-xs text-indigo-600 hover:text-indigo-700 font-medium transition cursor-pointer"
               >
                 Mark all as read
               </button>
             )}
           </div>
 
-          <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60">
+          <div className="max-h-80 overflow-y-auto divide-y divide-slate-800">
             {notifications.length === 0 ? (
-              <div className="py-8 text-center text-xs text-slate-500">
+              <div className="py-8 text-center text-xs text-slate-400">
                 No notifications yet.
               </div>
             ) : (
@@ -112,7 +112,7 @@ export default function NotificationBell() {
                   key={n._id}
                   onClick={() => handleNotificationClick(n)}
                   className={`p-3.5 hover:bg-slate-800/60 transition cursor-pointer flex gap-3 items-start ${
-                    !n.isRead ? 'bg-indigo-950/20' : ''
+                    !n.isRead ? 'bg-indigo-500/10' : ''
                   }`}
                 >
                   <span className="text-base mt-0.5">
@@ -127,12 +127,12 @@ export default function NotificationBell() {
                   <div className="flex-grow space-y-1">
                     <p
                       className={`text-xs leading-relaxed ${
-                        !n.isRead ? 'font-semibold text-white' : 'text-slate-300'
+                        !n.isRead ? 'font-semibold text-slate-100' : 'text-slate-300'
                       }`}
                     >
                       {n.message}
                     </p>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="text-[10px] text-slate-400">
                       {new Date(n.createdAt).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
@@ -141,7 +141,7 @@ export default function NotificationBell() {
                     </p>
                   </div>
                   {!n.isRead && (
-                    <span className="w-2 h-2 rounded-full bg-indigo-500 mt-1 flex-shrink-0"></span>
+                    <span className="w-2 h-2 rounded-full bg-indigo-600 mt-1 flex-shrink-0"></span>
                   )}
                 </div>
               ))

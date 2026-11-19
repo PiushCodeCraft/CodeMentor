@@ -41,9 +41,9 @@ export default function Login() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-slate-800/80 border border-slate-700/80 rounded-2xl p-8 shadow-2xl backdrop-blur">
+      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-sm">
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
             Welcome Back
           </h1>
           <p className="text-sm text-slate-400 mt-2">
@@ -52,7 +52,7 @@ export default function Login() {
         </div>
 
         {(localError || error) && (
-          <div className="mb-6 p-3.5 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+          <div className="mb-6 p-3.5 bg-red-500/10 border border-red-500/30 rounded-xl text-red-600 text-sm">
             {localError || error}
           </div>
         )}
@@ -68,7 +68,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@domain.com"
-              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+              className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
             />
           </div>
 
@@ -82,14 +82,14 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+              className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-medium rounded-xl shadow-lg shadow-indigo-600/30 transition text-sm flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-medium rounded-xl shadow-md shadow-indigo-600/20 transition text-sm flex items-center justify-center gap-2 cursor-pointer"
           >
             {submitting ? (
               <>
@@ -102,9 +102,9 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="mt-8 text-center text-sm text-slate-400 border-t border-slate-700/60 pt-6">
+        <div className="mt-8 text-center text-sm text-slate-400 border-t border-slate-800 pt-6">
           Don't have an account?{' '}
-          <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-medium">
+          <Link to="/register" className="text-indigo-600 hover:text-indigo-700 font-semibold">
             Register here
           </Link>
         </div>

@@ -66,10 +66,10 @@ export default function NewRequest() {
       {/* Top Header */}
       <div className="flex items-center justify-between pb-4 border-b border-slate-800">
         <div>
-          <Link to="/requests" className="text-xs text-indigo-400 hover:underline mb-1 inline-block">
+          <Link to="/requests" className="text-xs text-indigo-600 hover:underline mb-1 inline-block">
             &larr; Back to Requests
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100">
             Post Code for Review
           </h1>
           <p className="text-sm text-slate-400 mt-1">
@@ -77,23 +77,23 @@ export default function NewRequest() {
           </p>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 bg-slate-900 border border-slate-700 px-3.5 py-1.5 rounded-xl text-xs">
+        <div className="hidden sm:flex items-center gap-2 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-xl text-xs">
           <span className="text-slate-400">Your Wallet:</span>
-          <span className="font-bold text-amber-400">🪙 {user?.credits ?? 0}</span>
-          <span className="text-slate-500">credits</span>
+          <span className="font-bold text-amber-600">🪙 {user?.credits ?? 0}</span>
+          <span className="text-slate-400">credits</span>
         </div>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-300 text-sm">
+        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-600 text-sm">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6 bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-xl">
+      <form onSubmit={handleSubmit} className="space-y-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
         {/* Title */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
             Request Title *
           </label>
           <input
@@ -104,7 +104,7 @@ export default function NewRequest() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Memory leak in React custom hook with WebSocket listener"
-            className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
           />
         </div>
 

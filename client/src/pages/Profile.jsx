@@ -51,7 +51,7 @@ export default function Profile() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Your Profile</h1>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100">Your Profile</h1>
         <p className="text-sm text-slate-400 mt-1">
           Manage your personal details, expertise, and account preferences.
         </p>
@@ -70,46 +70,46 @@ export default function Profile() {
       )}
 
       {/* Account Info Readonly Card */}
-      <div className="bg-slate-800/60 border border-slate-700/60 rounded-xl p-6 shadow-md grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <span className="text-xs uppercase font-semibold text-slate-500">Email Address</span>
+          <span className="text-xs uppercase font-semibold text-slate-400">Email Address</span>
           <p className="text-sm font-medium text-slate-200 mt-1">{user?.email}</p>
         </div>
         <div>
-          <span className="text-xs uppercase font-semibold text-slate-500">Role</span>
-          <p className="text-sm font-medium text-indigo-400 capitalize mt-1">{user?.role}</p>
+          <span className="text-xs uppercase font-semibold text-slate-400">Role</span>
+          <p className="text-sm font-medium text-indigo-600 capitalize mt-1">{user?.role}</p>
         </div>
         <div>
-          <span className="text-xs uppercase font-semibold text-slate-500">Wallet Balance</span>
-          <p className="text-sm font-medium text-amber-400 mt-1">🪙 {user?.credits ?? 0} credits</p>
+          <span className="text-xs uppercase font-semibold text-slate-400">Wallet Balance</span>
+          <p className="text-sm font-medium text-amber-600 mt-1">🪙 {user?.credits ?? 0} credits</p>
         </div>
       </div>
 
       {/* Mentor Reputation & Badges Card */}
       {user?.role === 'mentor' && (
-        <div className="bg-slate-900/90 border border-amber-500/30 rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 shadow-sm space-y-4">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
               <span>🏆</span>
-              <span>Mentor Reputation & Achievements</span>
+              <span>Mentor Reputation &amp; Achievements</span>
             </h3>
-            <span className="text-xs text-amber-400 font-semibold bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full">
+            <span className="text-xs text-amber-700 font-semibold bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full">
               Phase 7 Live
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-slate-400">Reputation Points</span>
-              <p className="text-2xl font-black text-amber-400 mt-1">{user?.reputation ?? 0} pts</p>
+              <p className="text-2xl font-black text-amber-600 mt-1">{user?.reputation ?? 0} pts</p>
             </div>
-            <div className="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-slate-400">Average Rating</span>
-              <p className="text-2xl font-black text-white mt-1">
+              <p className="text-2xl font-black text-slate-100 mt-1">
                 ★ {user?.ratingAvg ? user.ratingAvg.toFixed(1) : '0.0'}
               </p>
             </div>
-            <div className="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
               <span className="text-xs text-slate-400">Completed Reviews</span>
               <p className="text-2xl font-black text-slate-200 mt-1">{user?.ratingCount ?? 0}</p>
             </div>
@@ -124,7 +124,7 @@ export default function Profile() {
                 {user.badges.map((badge) => (
                   <span
                     key={badge}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/15 text-amber-700 border border-amber-500/30 shadow-sm"
                   >
                     <span>🎖️</span>
                     <span>{badge}</span>
@@ -139,9 +139,9 @@ export default function Profile() {
       {/* Edit Profile Form */}
       <form
         onSubmit={handleSubmit}
-        className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 sm:p-8 space-y-5 shadow-xl backdrop-blur"
+        className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-5 shadow-sm backdrop-blur"
       >
-        <h2 className="text-lg font-semibold text-white border-b border-slate-700/60 pb-3">
+        <h2 className="text-lg font-semibold text-slate-100 border-b border-slate-800 pb-3">
           Edit Profile Information
         </h2>
 
@@ -203,7 +203,7 @@ export default function Profile() {
         {user?.role === 'mentor' && (
           <div className="p-4 bg-slate-900 border border-slate-700/80 rounded-xl flex items-center justify-between">
             <div>
-              <span className="block text-sm font-semibold text-white">Mentor Availability Status</span>
+              <span className="block text-sm font-semibold text-slate-100">Mentor Availability Status</span>
               <span className="text-xs text-slate-400">
                 When active, your profile is marked available for review sessions.
               </span>

@@ -152,21 +152,21 @@ export default function CodeEditor({
   };
 
   return (
-    <div className="w-full h-full min-h-[500px] flex flex-col bg-slate-950 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl">
+    <div className="w-full h-full min-h-[500px] flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
       {/* Editor Top Bar */}
       <div className="px-4 py-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-xs">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
           </div>
           <span className="text-slate-400 font-mono font-medium">Monaco Editor</span>
-          <span className="px-2 py-0.5 rounded bg-slate-800 text-indigo-300 font-mono text-[11px] uppercase">
+          <span className="px-2 py-0.5 rounded bg-slate-800 text-indigo-600 font-mono text-[11px] uppercase font-semibold">
             {language}
           </span>
           {highlightedLine && (
-            <span className="text-[11px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+            <span className="text-[11px] font-mono text-amber-700 bg-amber-500/15 px-2 py-0.5 rounded border border-amber-500/30">
               Inspecting Line #{highlightedLine}
             </span>
           )}
@@ -174,16 +174,16 @@ export default function CodeEditor({
 
         <div className="flex items-center gap-3">
           {isReadOnly ? (
-            <span className="px-2 py-0.5 rounded bg-slate-800 text-amber-400 font-mono text-[11px]">
+            <span className="px-2 py-0.5 rounded bg-slate-800 text-amber-700 font-mono text-[11px]">
               🔒 Read-Only (Completed)
             </span>
           ) : (
-            <span className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="flex items-center gap-1.5 text-emerald-600 font-mono text-[11px] font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
               Live Sync Active
             </span>
           )}
-          <span className="text-slate-500 font-mono">
+          <span className="text-slate-400 font-mono">
             {code ? `${code.split('\n').length} lines` : '0 lines'}
           </span>
         </div>
@@ -195,7 +195,7 @@ export default function CodeEditor({
           height="100%"
           language={language}
           value={code}
-          theme="vs-dark"
+          theme="light"
           options={{
             fontSize: 13,
             fontFamily: "Fira Code, Consolas, 'Courier New', monospace",

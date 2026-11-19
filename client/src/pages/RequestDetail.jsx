@@ -112,35 +112,35 @@ export default function RequestDetail() {
       )}
 
       {/* Main Request Header Card */}
-      <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 sm:p-8 shadow-xl space-y-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span
               className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                 request.status === 'open'
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                  ? 'bg-emerald-500/10 text-emerald-700 border border-emerald-500/30'
                   : request.status === 'completed'
-                  ? 'bg-purple-500/10 text-purple-400 border border-purple-500/30'
+                  ? 'bg-purple-500/10 text-purple-700 border border-purple-500/30'
                   : request.status === 'cancelled'
-                  ? 'bg-slate-700 text-slate-400'
-                  : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/30'
+                  ? 'bg-slate-800 text-slate-400'
+                  : 'bg-indigo-500/10 text-indigo-700 border border-indigo-500/30'
               }`}
             >
               ● {request.status}
             </span>
 
-            <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-900 border border-slate-700 text-slate-300 capitalize">
+            <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-950 border border-slate-800 text-slate-300 capitalize">
               {request.difficulty} Level
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-300 font-semibold text-sm">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-700 font-semibold text-sm">
             <span>🪙</span>
             <span>{request.price > 0 ? `${request.price} credits bounty` : 'Free community review'}</span>
           </div>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 leading-tight">
           {request.title}
         </h1>
 
@@ -177,16 +177,16 @@ export default function RequestDetail() {
       {/* Grid: Description & Author info */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Description Column */}
-        <div className="md:col-span-2 bg-slate-800/60 border border-slate-700/60 rounded-xl p-6 space-y-3">
-          <h2 className="text-base font-semibold text-white">Problem Description</h2>
+        <div className="md:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+          <h2 className="text-base font-semibold text-slate-100">Problem Description</h2>
           <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
             {request.description || 'No detailed description provided.'}
           </p>
         </div>
 
         {/* Student / Author Column */}
-        <div className="bg-slate-800/60 border border-slate-700/60 rounded-xl p-6 space-y-4">
-          <h2 className="text-base font-semibold text-white">Submitted By</h2>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+          <h2 className="text-base font-semibold text-slate-100">Submitted By</h2>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
               {request.student?.name?.charAt(0).toUpperCase() || 'S'}
@@ -200,7 +200,7 @@ export default function RequestDetail() {
           </div>
 
           {/* Action buttons */}
-          <div className="pt-4 border-t border-slate-700/60 space-y-2">
+          <div className="pt-4 border-t border-slate-800 space-y-2">
             {isOwner && request.status === 'open' && (
               <button
                 onClick={handleCancel}
@@ -237,9 +237,9 @@ export default function RequestDetail() {
             )}
 
             {request.mentor && (
-              <div className="p-3 bg-indigo-950/40 border border-indigo-500/30 rounded-xl space-y-2 text-xs">
+              <div className="p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-xl space-y-2 text-xs">
                 <span className="text-slate-400 font-medium">Assigned Mentor:</span>
-                <p className="font-bold text-white text-sm">{request.mentor.name}</p>
+                <p className="font-bold text-slate-100 text-sm">{request.mentor.name}</p>
                 <p className="text-slate-400">
                   Rating: ⭐ {request.mentor.ratingAvg?.toFixed(1) || '5.0'} &bull; {request.mentor.reputation || 0} pts
                 </p>
@@ -250,10 +250,10 @@ export default function RequestDetail() {
       </div>
 
       {/* Code Viewer */}
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
         <div className="px-6 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
           <span className="text-xs font-mono font-medium text-slate-400">Submitted Code Snippet</span>
-          <span className="text-[11px] text-slate-500 font-mono">
+          <span className="text-[11px] text-slate-400 font-mono">
             {request.code ? `${request.code.split('\n').length} lines` : '0 lines'}
           </span>
         </div>

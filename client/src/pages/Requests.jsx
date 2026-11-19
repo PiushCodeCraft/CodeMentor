@@ -70,7 +70,7 @@ export default function Requests() {
       {/* Top Banner & Action */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-slate-800">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
             Review Requests
           </h1>
           <p className="text-sm text-slate-400 mt-1">
@@ -89,7 +89,7 @@ export default function Requests() {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 shadow-md space-y-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-sm space-y-4">
         <form onSubmit={handleSearchSubmit} className="flex gap-2">
           <input
             type="text"
@@ -100,7 +100,7 @@ export default function Requests() {
           />
           <button
             type="submit"
-            className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm font-medium transition cursor-pointer"
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition cursor-pointer"
           >
             Search
           </button>
@@ -198,9 +198,9 @@ export default function Requests() {
           {error}
         </div>
       ) : requests.length === 0 ? (
-        <div className="py-16 text-center space-y-4 bg-slate-800/30 border border-slate-700/50 rounded-2xl p-8">
+        <div className="py-16 text-center space-y-4 bg-slate-900 border border-slate-800 rounded-2xl p-8">
           <div className="text-4xl">📂</div>
-          <h3 className="text-lg font-bold text-slate-200">No Review Requests Found</h3>
+          <h3 className="text-lg font-bold text-slate-100">No Review Requests Found</h3>
           <p className="text-sm text-slate-400 max-w-md mx-auto">
             {onlyMine
               ? "You haven't posted any review requests yet. Create your first request to get feedback from mentors!"
@@ -227,8 +227,8 @@ export default function Requests() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between pt-6 border-t border-slate-800 text-sm text-slate-400">
           <span>
-            Showing page <strong className="text-white">{page}</strong> of{' '}
-            <strong className="text-white">{totalPages}</strong> ({total} total requests)
+            Showing page <strong className="text-slate-100">{page}</strong> of{' '}
+            <strong className="text-slate-100">{totalPages}</strong> ({total} total requests)
           </span>
 
           <div className="flex items-center gap-2">

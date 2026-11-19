@@ -19,19 +19,19 @@ export default function RequestCard({ request }) {
     switch (level) {
       case 'advanced':
         return (
-          <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/30">
+          <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-red-500/10 text-red-700 border border-red-500/30">
             Advanced
           </span>
         );
       case 'intermediate':
         return (
-          <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/30">
+          <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-700 border border-amber-500/30">
             Intermediate
           </span>
         );
       default:
         return (
-          <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+          <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-700 border border-emerald-500/30">
             Beginner
           </span>
         );
@@ -42,26 +42,26 @@ export default function RequestCard({ request }) {
     switch (st) {
       case 'open':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 border border-emerald-500/30">
             ● Open
           </span>
         );
       case 'accepted':
       case 'in_progress':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-700 border border-indigo-500/30">
             ● In Progress
           </span>
         );
       case 'completed':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-700 border border-purple-500/30">
             ✓ Completed
           </span>
         );
       case 'cancelled':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-700/50 text-slate-400 border border-slate-700">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700">
             ✕ Cancelled
           </span>
         );
@@ -71,7 +71,7 @@ export default function RequestCard({ request }) {
   };
 
   return (
-    <div className="bg-slate-800/70 border border-slate-700/70 hover:border-indigo-500/50 rounded-xl p-5 shadow-lg transition duration-200 flex flex-col justify-between space-y-4">
+    <div className="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between space-y-4">
       {/* Top Header */}
       <div className="space-y-2">
         <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -79,13 +79,13 @@ export default function RequestCard({ request }) {
             {getStatusBadge(status)}
             {getDifficultyBadge(difficulty)}
             {aiSummary && (
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 flex items-center gap-1">
-                <span>✨</span>
-                <span>AI Ready</span>
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-500/10 text-cyan-700 border border-cyan-500/25 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-600 animate-pulse"></span>
+                <span>✦ AI Scanned</span>
               </span>
             )}
           </div>
-          <div className="text-xs font-semibold text-amber-400 flex items-center gap-1">
+          <div className="text-xs font-semibold text-amber-700 flex items-center gap-1">
             <span>🪙</span>
             <span>{price > 0 ? `${price} credits` : 'Free'}</span>
           </div>
@@ -93,7 +93,7 @@ export default function RequestCard({ request }) {
 
         <Link
           to={`/requests/${_id}`}
-          className="block text-lg font-bold text-white hover:text-indigo-400 transition line-clamp-1"
+          className="block text-lg font-bold text-slate-100 hover:text-indigo-600 transition line-clamp-1"
         >
           {title}
         </Link>
@@ -111,7 +111,7 @@ export default function RequestCard({ request }) {
           {tech.map((t, idx) => (
             <span
               key={idx}
-              className="px-2 py-0.5 bg-slate-900/90 border border-slate-700/80 text-indigo-300 text-[11px] rounded font-mono"
+              className="px-2 py-0.5 bg-slate-900 border border-slate-800 text-indigo-700 text-[11px] rounded font-mono font-medium"
             >
               #{t}
             </span>
@@ -120,19 +120,19 @@ export default function RequestCard({ request }) {
       )}
 
       {/* Bottom Footer: Student Info & View Button */}
-      <div className="pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs text-slate-400">
+      <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-slate-700 text-slate-200 font-bold flex items-center justify-center text-[10px]">
+          <div className="w-6 h-6 rounded-full bg-slate-800 text-slate-300 font-bold flex items-center justify-center text-[10px]">
             {student?.name ? student.name.charAt(0).toUpperCase() : 'S'}
           </div>
           <span className="font-medium text-slate-300">{student?.name || 'Anonymous'}</span>
-          <span className="text-slate-600">&bull;</span>
+          <span className="text-slate-400">&bull;</span>
           <span>{new Date(createdAt).toLocaleDateString()}</span>
         </div>
 
         <Link
           to={`/requests/${_id}`}
-          className="text-indigo-400 hover:text-indigo-300 font-medium hover:underline flex items-center gap-1"
+          className="text-indigo-600 hover:text-indigo-700 font-semibold hover:underline flex items-center gap-1"
         >
           View Details &rarr;
         </Link>

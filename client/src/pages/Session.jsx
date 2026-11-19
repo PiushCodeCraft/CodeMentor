@@ -212,7 +212,7 @@ export default function Session() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 space-y-4">
       {/* Top Session Control Bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2.5 flex-wrap">
             <span
@@ -228,7 +228,7 @@ export default function Session() {
               {session.status}
             </span>
 
-            <h1 className="text-base sm:text-lg font-bold text-white line-clamp-1">
+            <h1 className="text-base sm:text-lg font-bold text-slate-100 line-clamp-1">
               {session.request?.title || 'Review Session'}
             </h1>
           </div>
@@ -317,7 +317,7 @@ export default function Session() {
             <div className="flex items-center gap-2.5">
               <span className="text-2xl">🏁</span>
               <div>
-                <p className="font-bold text-white text-base">This review session has ended.</p>
+                <p className="font-bold text-slate-100 text-base">This review session has ended.</p>
                 <p className="text-xs text-purple-300/80">
                   {endedMessage || 'The code snapshot and comments are now archived in read-only mode.'}
                 </p>
@@ -351,7 +351,7 @@ export default function Session() {
                 <span className="font-bold text-amber-400 text-sm">
                   {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
                 </span>
-                <span className="text-white font-medium">({review.rating}/5 stars)</span>
+                <span className="text-slate-100 font-medium">({review.rating}/5 stars)</span>
                 {review.comment && (
                   <span className="text-purple-200 italic line-clamp-1">
                     &ldquo;{review.comment}&rdquo;
@@ -398,7 +398,7 @@ export default function Session() {
                 className={`py-2 px-2 rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 ${
                   activeSidebarTab === 'comments'
                     ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-400 hover:text-slate-100'
                 }`}
               >
                 <span>📝 Comments</span>
@@ -414,7 +414,7 @@ export default function Session() {
                 className={`py-2 px-2 rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 ${
                   activeSidebarTab === 'chat'
                     ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-400 hover:text-slate-100'
                 }`}
               >
                 <span>💬 Chat</span>
@@ -425,7 +425,7 @@ export default function Session() {
                 className={`py-2 px-2 rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 ${
                   activeSidebarTab === 'ai'
                     ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    : 'text-slate-400 hover:text-slate-100'
                 }`}
               >
                 <span>🤖 AI</span>
@@ -450,10 +450,10 @@ export default function Session() {
               ) : (
                 <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 h-[550px] overflow-y-auto">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                    <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-slate-100 flex items-center gap-1.5">
                       <span>🤖</span> AI Pre-Review Insights
                     </span>
-                    <span className="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">
+                    <span className="text-[10px] text-cyan-600 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">
                       Phase 8
                     </span>
                   </div>
@@ -466,7 +466,7 @@ export default function Session() {
                       <p>No AI pre-review found for this request.</p>
                       <Link
                         to={`/requests/${session.request?._id || session.request}`}
-                        className="text-indigo-400 hover:underline inline-block text-xs"
+                        className="text-indigo-600 hover:underline inline-block text-xs"
                       >
                         View Request Page &rarr;
                       </Link>

@@ -59,9 +59,9 @@ export default function Register() {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-lg bg-slate-800/80 border border-slate-700/80 rounded-2xl p-8 shadow-2xl backdrop-blur">
+      <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-sm">
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
             Create an Account
           </h1>
           <p className="text-sm text-slate-400 mt-2">
@@ -70,35 +70,35 @@ export default function Register() {
         </div>
 
         {/* Role Selector Tabs */}
-        <div className="mb-6 grid grid-cols-2 gap-3 p-1.5 bg-slate-900 border border-slate-700/80 rounded-xl">
+        <div className="mb-6 grid grid-cols-2 gap-3 p-1.5 bg-slate-900 border border-slate-800 rounded-xl">
           <button
             type="button"
             onClick={() => setRole('student')}
             className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition cursor-pointer flex flex-col items-center gap-0.5 ${
               role === 'student'
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             <span>👨‍🎓 Student</span>
-            <span className="text-[11px] font-normal opacity-80">Get code reviews</span>
+            <span className="text-[11px] font-normal opacity-90">Get code reviews</span>
           </button>
           <button
             type="button"
             onClick={() => setRole('mentor')}
             className={`py-2.5 px-4 rounded-lg text-sm font-semibold transition cursor-pointer flex flex-col items-center gap-0.5 ${
               role === 'mentor'
-                ? 'bg-emerald-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             <span>🧑‍🏫 Mentor</span>
-            <span className="text-[11px] font-normal opacity-80">Review & earn reputation</span>
+            <span className="text-[11px] font-normal opacity-90">Review & earn reputation</span>
           </button>
         </div>
 
         {(localError || error) && (
-          <div className="mb-6 p-3.5 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+          <div className="mb-6 p-3.5 bg-red-500/10 border border-red-500/30 rounded-xl text-red-600 text-sm">
             {localError || error}
           </div>
         )}
@@ -114,7 +114,7 @@ export default function Register() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Alex Johnson"
-              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
           </div>
 
@@ -128,7 +128,7 @@ export default function Register() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="alex@example.com"
-              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
           </div>
 
@@ -143,15 +143,15 @@ export default function Register() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
           </div>
 
           {/* Mentor specific fields */}
           {role === 'mentor' && (
-            <div className="space-y-4 pt-2 border-t border-slate-700/60">
+            <div className="space-y-4 pt-2 border-t border-slate-800">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-1.5">
                   Technical Skills (comma-separated)
                 </label>
                 <input
@@ -159,12 +159,12 @@ export default function Register() {
                   value={skillsInput}
                   onChange={(e) => setSkillsInput(e.target.value)}
                   placeholder="React, Node.js, TypeScript, Python, Docker"
-                  className="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                  className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-1.5">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-emerald-700 mb-1.5">
                   Short Bio / Experience
                 </label>
                 <textarea
@@ -172,11 +172,11 @@ export default function Register() {
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Senior software engineer with 5 years experience building scalable web applications."
-                  className="w-full px-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                  className="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                 />
               </div>
 
-              <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-xs text-emerald-300">
+              <div className="p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl text-xs text-emerald-700">
                 ℹ️ Mentor profiles undergo admin approval before appearing in public listings.
               </div>
             </div>
@@ -185,10 +185,10 @@ export default function Register() {
           <button
             type="submit"
             disabled={submitting}
-            className={`w-full py-3 px-4 font-medium rounded-xl text-white shadow-lg transition text-sm flex items-center justify-center gap-2 cursor-pointer mt-4 ${
+            className={`w-full py-3 px-4 font-semibold rounded-xl text-white shadow-md transition text-sm flex items-center justify-center gap-2 cursor-pointer mt-4 ${
               role === 'mentor'
-                ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30'
-                : 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/30'
+                ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20'
+                : 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/20'
             }`}
           >
             {submitting ? (
@@ -202,9 +202,9 @@ export default function Register() {
           </button>
         </form>
 
-        <div className="mt-8 text-center text-sm text-slate-400 border-t border-slate-700/60 pt-6">
+        <div className="mt-8 text-center text-sm text-slate-400 border-t border-slate-800 pt-6">
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium">
+          <Link to="/login" className="text-indigo-600 hover:text-indigo-700 font-semibold">
             Sign in
           </Link>
         </div>

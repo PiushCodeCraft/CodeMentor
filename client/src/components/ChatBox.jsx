@@ -68,12 +68,12 @@ export default function ChatBox({ sessionId, socket, currentUser }) {
   };
 
   return (
-    <div className="w-full h-full min-h-[500px] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl">
+    <div className="w-full h-full min-h-[500px] flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
       {/* Top Header */}
-      <div className="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+      <div className="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-base">💬</span>
-          <h2 className="text-sm font-bold text-white">Session Chat</h2>
+          <h2 className="text-sm font-bold text-slate-100">Session Chat</h2>
         </div>
         <span className="text-[11px] text-slate-400 font-mono">
           {messages.length} msg{messages.length !== 1 ? 's' : ''}
@@ -88,10 +88,10 @@ export default function ChatBox({ sessionId, socket, currentUser }) {
             Loading chat history...
           </div>
         ) : messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-500 space-y-2">
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400 space-y-2">
             <span className="text-2xl">👋</span>
             <p className="text-xs">No messages in this session yet.</p>
-            <p className="text-[11px] text-slate-600">
+            <p className="text-[11px] text-slate-500">
               Start the discussion about the code below!
             </p>
           </div>
@@ -112,8 +112,8 @@ export default function ChatBox({ sessionId, socket, currentUser }) {
                   <span
                     className={`text-[9px] px-1.5 py-0.2 rounded font-bold uppercase ${
                       isMentor
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                        : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
+                        ? 'bg-emerald-500/10 text-emerald-700 border border-emerald-500/30'
+                        : 'bg-indigo-500/10 text-indigo-700 border border-indigo-500/30'
                     }`}
                   >
                     {m.sender?.role}
@@ -127,7 +127,7 @@ export default function ChatBox({ sessionId, socket, currentUser }) {
                 </div>
 
                 <div
-                  className={`p-3 rounded-2xl max-w-[85%] text-xs leading-relaxed break-words shadow-md ${
+                  className={`p-3 rounded-2xl max-w-[85%] text-xs leading-relaxed break-words shadow-sm ${
                     isMe
                       ? 'bg-indigo-600 text-white rounded-tr-none'
                       : isMentor
@@ -147,14 +147,14 @@ export default function ChatBox({ sessionId, socket, currentUser }) {
       {/* Input Box */}
       <form
         onSubmit={handleSendMessage}
-        className="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2"
+        className="p-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2"
       >
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Ask a question or explain a code change..."
-          className="flex-grow px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="flex-grow px-3.5 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         <button
           type="submit"

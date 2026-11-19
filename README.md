@@ -24,21 +24,22 @@ codementor-live/
 |   |-- src/
 |   |   |-- config/        (db.js, env.js)
 |   |   |-- models/        (User.js, Request.js, Session.js, Notification.js, Message.js, Comment.js, Review.js, Transaction.js)
-|   |   |-- routes/        (auth.js, users.js, requests.js, sessions.js, notifications.js, comments.js, reviews.js, leaderboard.js, health.js)
-|   |   |-- controllers/   (authController.js, userController.js, requestController.js, sessionController.js, notificationController.js, commentController.js, reviewController.js, leaderboardController.js)
+|   |   |-- routes/        (auth.js, users.js, requests.js, sessions.js, notifications.js, comments.js, reviews.js, leaderboard.js, admin.js, health.js)
+|   |   |-- controllers/   (authController.js, userController.js, requestController.js, sessionController.js, notificationController.js, commentController.js, reviewController.js, leaderboardController.js, adminController.js)
 |   |   |-- services/      (ratingService.js, aiService.js)
+|   |   |-- scripts/       (seed.js)
 |   |   |-- middleware/    (auth.js, role.js, validate.js)
 |   |   |-- sockets/       (index.js, sessionHandlers.js)
 |   |   |-- utils/         (jwt.js)
 |   |   `-- app.js, server.js
-|   |-- tests/             (auth.test.js, requests.test.js, acceptFlow.test.js, liveSession.test.js, comments.test.js, reviews.test.js, aiService.test.js, health.test.js)
+|   |-- tests/             (auth.test.js, requests.test.js, acceptFlow.test.js, liveSession.test.js, comments.test.js, reviews.test.js, aiService.test.js, admin.test.js, health.test.js)
 |   |-- .env.example
 |   `-- package.json
 |-- client/
 |   |-- src/
-|   |   |-- api/           (axios.js, requests.js, sessions.js, comments.js, reviews.js)
+|   |   |-- api/           (axios.js, requests.js, sessions.js, comments.js, reviews.js, admin.js)
 |   |   |-- components/    (Navbar.jsx, ProtectedRoute.jsx, RequestCard.jsx, NotificationBell.jsx, CodeEditor.jsx, ChatBox.jsx, CommentPanel.jsx, ReviewModal.jsx, AiPreReviewCard.jsx)
-|   |   |-- pages/         (Login.jsx, Register.jsx, Dashboard.jsx, Profile.jsx, Requests.jsx, NewRequest.jsx, RequestDetail.jsx, Mentors.jsx, Session.jsx, Leaderboard.jsx)
+|   |   |-- pages/         (Login.jsx, Register.jsx, Dashboard.jsx, Profile.jsx, Requests.jsx, NewRequest.jsx, RequestDetail.jsx, Mentors.jsx, Session.jsx, Leaderboard.jsx, Admin.jsx)
 |   |   |-- store/         (authStore.js)
 |   |   |-- hooks/         (useAuth.js, useSocket.js)
 |   |   |-- App.jsx
@@ -133,6 +134,28 @@ codementor-live/
   - Live re-analysis action with animated status indicators.
 - **In-Session Mentor Reference**: Dedicated `🤖 AI Insights` tab integrated into the live session split workspace (`Session.jsx`) so mentors can consult AI pre-review findings alongside the shared Monaco code editor.
 
+### Phase 9: Admin Command Center, Mentor Governance & AI Cyber Theme
+- **Admin Controller & API (`adminController.js`, `admin.js`)**:
+  - `GET /api/admin/users`: Paginated user list with role filtering (`student`, `mentor`, `admin`), approval status filtering, and live name/email search.
+  - `PATCH /api/admin/mentors/:id/approve`: Approve or revoke mentor accounts with automatic notifications sent to mentors.
+  - `PATCH /api/admin/users/:id/status`: Update general user roles and availability.
+  - `GET /api/admin/stats`: Real-time platform metrics (Total Users, Students vs. Mentors, Pending Applicants, Requests Open vs. Completed, Total Sessions, and Reviews).
+- **Database Seeding Engine (`seed.js`)**:
+  - Populates realistic demo data with single command `npm run seed`:
+    - Admin account: `admin@codementor.live` (Password: `AdminPass123!`)
+    - Students with wallet credits: `student.alice@example.com`, `student.bob@example.com`
+    - Veteran approved mentors with badges & reviews: `sarah.mentor@example.com`, `david.mentor@example.com`
+    - Pending mentor awaiting admin verification: `alex.pending@example.com`
+    - Sample review requests equipped with AI Pre-Reviews.
+- **Admin Command Center UI (`Admin.jsx`)**:
+  - High-tech telemetry stat counters.
+  - Actionable "Pending Mentor Approvals Queue" with applicant skill tags, bios, and one-click authorization.
+  - Comprehensive user permissions table with inline approval toggles and role elevation dropdowns.
+- **AI Cybernetic Visual Theme**:
+  - Cosmic deep space dark palette (`#030712`) with ambient radial neural glow mesh.
+  - Electric cyan (`#06b6d4`), violet (`#8b5cf6`), and neon amber accents.
+  - Holographic frosted glass cards (`.ai-glass`), glowing status pills (`✦ AI Live`), and geometric cyber grid overlays.
+
 ---
 
 ## ⚡ Socket.io Events Reference
@@ -153,6 +176,14 @@ codementor-live/
 ---
 
 ## 📡 REST API Endpoints
+
+### Admin & Platform Governance API (Phase 9)
+| Method | Endpoint | Access | Purpose |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/admin/stats` | Admin | Retrieve live platform telemetry and metrics |
+| `GET` | `/api/admin/users` | Admin | List all users with role/approval filters and search |
+| `PATCH` | `/api/admin/mentors/:id/approve` | Admin | Approve or suspend a mentor applicant |
+| `PATCH` | `/api/admin/users/:id/status` | Admin | Update user authorization role or availability |
 
 ### Requests & AI Pre-Review API (Phase 3 & Phase 8)
 | Method | Endpoint | Access | Purpose |
@@ -220,10 +251,16 @@ Open two browser windows to test:
 
 
 
-  
+### 3. Seed Database (Optional Demo Data)
 
-🌱 Database Seeding Completed Successfully!
-Admin login: admin@codementor.live / AdminPass123!
-Mentor login: sarah.mentor@example.com / Password123!
-Pending mentor: alex.pending@example.com / Password123!
-Student login: student.alice@example.com / Password123!
+To seed initial admin, mentors, pending mentor applicant, and sample review requests:
+```bash
+cd server
+npm run seed
+```
+
+**Pre-seeded Demo Credentials:**
+- **Admin**: `admin@codementor.live` / `AdminPass123!`
+- **Approved Mentor**: `sarah.mentor@example.com` / `Password123!`
+- **Pending Mentor**: `alex.pending@example.com` / `Password123!` (awaiting admin approval)
+- **Student**: `student.alice@example.com` / `Password123!`

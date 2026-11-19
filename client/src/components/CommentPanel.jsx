@@ -65,29 +65,29 @@ export default function CommentPanel({
   const isStudent = currentUser?.role === 'student';
 
   return (
-    <div className="w-full h-full min-h-[500px] flex flex-col bg-slate-900 border border-slate-700/80 rounded-2xl overflow-hidden shadow-2xl">
+    <div className="w-full h-full min-h-[500px] flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
       {/* Top Header */}
-      <div className="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+      <div className="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-base">📝</span>
-          <h2 className="text-sm font-bold text-white">Inline Code Comments</h2>
+          <h2 className="text-sm font-bold text-slate-100">Inline Code Comments</h2>
         </div>
         <div className="flex items-center gap-1.5 text-xs font-mono">
-          <span className="text-amber-400 font-semibold">{openCount} open</span>
-          <span className="text-slate-600">&bull;</span>
-          <span className="text-emerald-400">{resolvedCount} resolved</span>
+          <span className="text-amber-700 font-semibold">{openCount} open</span>
+          <span className="text-slate-400">&bull;</span>
+          <span className="text-emerald-700 font-semibold">{resolvedCount} resolved</span>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="px-4 py-2 bg-slate-950/60 border-b border-slate-800 flex items-center justify-between text-xs">
+      <div className="px-4 py-2 bg-slate-900/60 border-b border-slate-800 flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setFilter('all')}
             className={`px-2.5 py-1 rounded-lg font-medium transition cursor-pointer ${
               filter === 'all'
                 ? 'bg-indigo-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             All ({comments.length})
@@ -97,7 +97,7 @@ export default function CommentPanel({
             className={`px-2.5 py-1 rounded-lg font-medium transition cursor-pointer ${
               filter === 'open'
                 ? 'bg-amber-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             Open ({openCount})
@@ -107,7 +107,7 @@ export default function CommentPanel({
             className={`px-2.5 py-1 rounded-lg font-medium transition cursor-pointer ${
               filter === 'resolved'
                 ? 'bg-emerald-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-400 hover:text-slate-100'
             }`}
           >
             Resolved ({resolvedCount})
@@ -115,11 +115,11 @@ export default function CommentPanel({
         </div>
 
         {selectedLine && (
-          <div className="flex items-center gap-1.5 text-[11px] bg-slate-800 px-2 py-0.5 rounded text-indigo-300 font-mono">
+          <div className="flex items-center gap-1.5 text-[11px] bg-slate-800 px-2 py-0.5 rounded text-indigo-700 font-mono font-medium">
             <span>Line #{selectedLine}</span>
             <button
               onClick={() => onSelectLine(null)}
-              className="text-slate-400 hover:text-white text-xs ml-1"
+              className="text-slate-400 hover:text-slate-100 text-xs ml-1"
               title="Clear line filter"
             >
               &times;
@@ -131,7 +131,7 @@ export default function CommentPanel({
       {/* Comments List */}
       <div className="flex-grow p-4 overflow-y-auto space-y-3 max-h-[350px]">
         {filteredComments.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-500 space-y-2">
+          <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400 space-y-2">
             <span className="text-2xl">📌</span>
             <p className="text-xs">No {filter !== 'all' ? filter : ''} inline comments yet.</p>
             <p className="text-[11px] text-slate-600">
@@ -149,8 +149,8 @@ export default function CommentPanel({
                 key={comment._id}
                 className={`p-3.5 rounded-xl border transition space-y-2.5 ${
                   isResolved
-                    ? 'bg-slate-950/40 border-slate-800 opacity-75'
-                    : 'bg-slate-800/70 border-slate-700/80 hover:border-amber-500/50'
+                    ? 'bg-slate-900/50 border-slate-800 opacity-80'
+                    : 'bg-slate-900 border border-slate-800 hover:border-amber-500/50'
                 }`}
               >
                 {/* Comment Header */}
@@ -158,7 +158,7 @@ export default function CommentPanel({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => onSelectLine(comment.line)}
-                      className="px-2 py-0.5 bg-slate-950 border border-slate-700 hover:border-indigo-500 text-indigo-300 font-mono text-[11px] rounded font-bold transition cursor-pointer"
+                      className="px-2 py-0.5 bg-slate-900 border border-slate-800 hover:border-indigo-500 text-indigo-600 font-mono text-[11px] rounded font-bold transition cursor-pointer"
                       title="Jump to this line in editor"
                     >
                       Line {comment.line}
@@ -171,8 +171,8 @@ export default function CommentPanel({
                       <span
                         className={`text-[9px] px-1.5 py-0.2 rounded font-bold uppercase ${
                           comment.author?.role === 'mentor'
-                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                            : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
+                            ? 'bg-emerald-500/10 text-emerald-700 border border-emerald-500/30'
+                            : 'bg-indigo-500/10 text-indigo-700 border border-indigo-500/30'
                         }`}
                       >
                         {comment.author?.role}
@@ -184,8 +184,8 @@ export default function CommentPanel({
                     <span
                       className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
                         isResolved
-                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-                          : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                          ? 'bg-emerald-500/10 text-emerald-700 border border-emerald-500/30'
+                          : 'bg-amber-500/10 text-amber-700 border border-amber-500/30'
                       }`}
                     >
                       {isResolved ? '✓ Resolved' : '● Open'}
@@ -194,12 +194,12 @@ export default function CommentPanel({
                 </div>
 
                 {/* Comment Text */}
-                <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap pl-1">
+                <p className="text-xs text-slate-200 leading-relaxed whitespace-pre-wrap pl-1">
                   {comment.text}
                 </p>
 
                 {/* Comment Footer: Action buttons & timestamp */}
-                <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
+                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
                   <span>
                     {new Date(comment.createdAt).toLocaleTimeString([], {
                       hour: '2-digit',
@@ -214,8 +214,8 @@ export default function CommentPanel({
                       disabled={resolvingId === comment._id}
                       className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition cursor-pointer flex items-center gap-1 ${
                         isResolved
-                          ? 'bg-slate-800 hover:bg-slate-700 text-amber-300'
-                          : 'bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30'
+                          ? 'bg-slate-800 hover:bg-slate-700 text-amber-700'
+                          : 'bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-700 border border-emerald-500/30'
                       }`}
                     >
                       {resolvingId === comment._id ? (
@@ -238,21 +238,21 @@ export default function CommentPanel({
       {!isCompleted && (
         <form
           onSubmit={handleSubmit}
-          className="p-3 bg-slate-950 border-t border-slate-800 space-y-2.5"
+          className="p-3 bg-slate-900 border-t border-slate-800 space-y-2.5"
         >
           <div className="flex items-center justify-between">
             <span className="text-[11px] uppercase font-semibold text-slate-400">
               Leave Feedback on Line:
             </span>
             <div className="flex items-center gap-1">
-              <span className="text-xs text-slate-500 font-mono">Line:</span>
+              <span className="text-xs text-slate-400 font-mono">Line:</span>
               <input
                 type="number"
                 min={1}
                 required
                 value={lineInput}
                 onChange={(e) => setLineInput(Math.max(1, parseInt(e.target.value || '1', 10)))}
-                className="w-16 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs text-indigo-300 font-mono focus:outline-none focus:ring-1 focus:ring-indigo-500 text-center"
+                className="w-16 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-xs text-indigo-700 font-mono font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500 text-center"
               />
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function CommentPanel({
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder={`Comment on line ${lineInput}... (e.g. Consider checking null values)`}
-              className="flex-grow p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-grow p-2.5 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <button
               type="submit"
