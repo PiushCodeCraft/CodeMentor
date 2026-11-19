@@ -257,7 +257,7 @@ export default function RequestDetail() {
             {request.code ? `${request.code.split('\n').length} lines` : '0 lines'}
           </span>
         </div>
-        <div className="p-6 font-mono text-xs overflow-x-auto leading-relaxed text-emerald-300 bg-slate-950/70">
+        <div className="p-6 font-mono text-xs overflow-x-auto leading-relaxed text-slate-100 bg-slate-950">
           <pre>{request.code}</pre>
         </div>
       </div>

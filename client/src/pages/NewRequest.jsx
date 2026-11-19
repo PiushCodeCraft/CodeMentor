@@ -200,7 +200,7 @@ export default function NewRequest() {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder={`// Paste your code here...\nfunction handleData(input) {\n  return input.map(item => item.value);\n}`}
-            className="w-full p-4 bg-slate-950 border border-slate-700 rounded-xl text-emerald-300 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
+            className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 leading-relaxed"
             spellCheck="false"
           />
         </div>

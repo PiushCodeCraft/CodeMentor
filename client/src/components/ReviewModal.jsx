@@ -61,7 +61,7 @@ export default function ReviewModal({
   const activeStar = hoverRating || rating;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-100/40 backdrop-blur-sm animate-fade-in">
       <div className="relative w-full max-w-lg overflow-hidden bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-6 sm:p-8">
         {/* Close Button */}
         {!submitting && !success && (

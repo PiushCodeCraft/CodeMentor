@@ -312,13 +312,13 @@ export default function Session() {
 
       {/* Completion & Review Banner */}
       {(endedMessage || isCompleted) && (
-        <div className="p-4 bg-purple-950/40 border border-purple-500/40 rounded-2xl text-purple-200 text-sm space-y-3 shadow-lg">
+        <div className="p-4 bg-purple-500/10 border border-purple-500/30 rounded-2xl text-slate-100 text-sm space-y-3 shadow-sm">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center gap-2.5">
               <span className="text-2xl">🏁</span>
               <div>
                 <p className="font-bold text-slate-100 text-base">This review session has ended.</p>
-                <p className="text-xs text-purple-300/80">
+                <p className="text-xs text-purple-700">
                   {endedMessage || 'The code snapshot and comments are now archived in read-only mode.'}
                 </p>
               </div>
@@ -328,7 +328,7 @@ export default function Session() {
               {isStudent && !review && (
                 <button
                   onClick={() => setIsReviewModalOpen(true)}
-                  className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-amber-500/20 transition cursor-pointer flex items-center gap-1.5"
+                  className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center gap-1.5"
                 >
                   <span>⭐</span>
                   <span>Rate Mentor</span>
@@ -346,24 +346,24 @@ export default function Session() {
 
           {/* Review Details if already submitted */}
           {review ? (
-            <div className="pt-3 border-t border-purple-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs bg-purple-900/30 px-3.5 py-2.5 rounded-xl">
+            <div className="pt-3 border-t border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs bg-purple-500/5 px-3.5 py-2.5 rounded-xl">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-amber-400 text-sm">
+                <span className="font-bold text-amber-600 text-sm">
                   {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
                 </span>
                 <span className="text-slate-100 font-medium">({review.rating}/5 stars)</span>
                 {review.comment && (
-                  <span className="text-purple-200 italic line-clamp-1">
+                  <span className="text-slate-300 italic line-clamp-1">
                     &ldquo;{review.comment}&rdquo;
                   </span>
                 )}
               </div>
-              <span className="text-purple-300/70 text-[11px]">
-                Review Recorded &bull; Credits & Reputation Transferred
+              <span className="text-purple-700 text-[11px]">
+                Review Recorded &bull; Credits &amp; Reputation Transferred
               </span>
             </div>
           ) : isMentor ? (
-            <div className="pt-2 border-t border-purple-500/20 text-xs text-purple-300/70 flex items-center gap-1.5">
+            <div className="pt-2 border-t border-purple-500/20 text-xs text-purple-700 flex items-center gap-1.5">
               <span>⏳</span>
               <span>Waiting for student review. Bounty credits and reputation bonus will be awarded upon rating submission.</span>
             </div>
