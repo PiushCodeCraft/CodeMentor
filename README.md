@@ -1,7 +1,7 @@
 # CodeMentor Live 🚀
 
 > **A Real-Time Mentorship and Code-Review Marketplace for Students**  
-> Event: **MERNova** | Stack: **MongoDB, Express.js, React, Node.js** | Mode: **Solo Project**
+> Event: **MERNova** | Stack: **MongoDB, Express.js, React, Node.js** 
 
 ---
 
@@ -226,11 +226,13 @@ codementor-live/
 
 ```bash
 cd server
+npm install
 npm run dev
 ```
 
-Run test suite:
+Run test :
 ```bash
+cd server
 npm test
 ```
 
@@ -238,6 +240,7 @@ npm test
 
 ```bash
 cd client
+npm install
 npm run dev
 ```
 
@@ -262,5 +265,5 @@ npm run seed
 **Pre-seeded Demo Credentials:**
 - **Admin**: `admin@codementor.live` / `AdminPass123!`
 - **Approved Mentor**: `sarah.mentor@example.com` / `Password123!`
-- **Pending Mentor**: `alex.pending@example.com` / `Password123!` (awaiting admin approval)
+- **Pending Mentor**: `alex.pending@example.com` / `Password123!`
 - **Student**: `student.alice@example.com` / `Password123!`
