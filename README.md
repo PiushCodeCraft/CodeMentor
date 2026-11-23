@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="client/public/logo.png" width="96" height="96" alt="CodeMentor Live Logo" />
+</p>
+
 # CodeMentor Live 🚀
 
 > **A Real-Time Mentorship and Code-Review Marketplace for Students**  

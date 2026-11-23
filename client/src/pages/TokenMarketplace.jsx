@@ -103,6 +103,7 @@ export default function TokenMarketplace() {
         currency: orderData.currency || 'INR',
         name: 'CodeMentor Live',
         description: `Token Package: ${pkg.name} (${pkg.tokens} tokens)`,
+        image: `${window.location.origin}/logo.png`,
         order_id: orderData.order.razorpayOrderId,
         prefill: {
           name: user?.name || '',

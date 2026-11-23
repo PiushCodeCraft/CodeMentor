@@ -50,6 +50,12 @@ function Home() {
     <div className="max-w-6xl mx-auto px-4 py-12 sm:py-16 space-y-16 animate-fade-in">
       {/* AI Hero Banner */}
       <div className="text-center space-y-6 max-w-3xl mx-auto">
+        <div className="flex justify-center">
+          <div className="w-16 h-16 rounded-2xl bg-white p-2.5 shadow-lg shadow-indigo-500/10 border border-slate-700/50 flex items-center justify-center">
+            <img src="/logo.png" alt="CodeMentor Live" className="w-full h-full object-contain" />
+          </div>
+        </div>
+
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 text-xs font-bold uppercase tracking-wider shadow-sm">
           <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
           <span>✦ AI-Powered Developer Mentorship Platform</span>
@@ -290,8 +296,9 @@ export default function App() {
         </Routes>
       </main>
 
-      <footer className="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
-        CodeMentor Live &bull; Event: MERNova &bull; Built with MongoDB, Express, React, Node.js
+      <footer className="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 flex items-center justify-center gap-2">
+        <img src="/logo.png" alt="CodeMentor Live" className="w-5 h-5 object-contain" />
+        <span>CodeMentor Live &bull; Event: MERNova &bull; Built with MongoDB, Express, React, Node.js</span>
       </footer>
     </div>
   );

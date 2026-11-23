@@ -101,10 +101,8 @@ export default function Navbar() {
 
         {/* Brand */}
         <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-cyan-500 p-[1px] shadow-sm group-hover:shadow-md transition">
-            <div className="w-full h-full rounded-[11px] bg-white flex items-center justify-center text-indigo-600 font-black text-lg">
-              ✦
-            </div>
+          <div className="w-10 h-10 rounded-xl bg-white border border-slate-200/80 shadow-sm group-hover:shadow-md group-hover:border-indigo-300 transition flex items-center justify-center p-1">
+            <img src="/logo.png" alt="CodeMentor Logo" className="w-full h-full object-contain" />
           </div>
 
           <span className="text-xl font-black tracking-tight bg-gradient-to-r from-indigo-600 to-cyan-600 bg-clip-text text-transparent">

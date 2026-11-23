@@ -43,6 +43,11 @@ export default function Login() {
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-sm">
         <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <Link to="/" className="w-14 h-14 rounded-2xl bg-white p-2 shadow-md hover:scale-105 transition flex items-center justify-center" title="CodeMentor Home">
+              <img src="/logo.png" alt="CodeMentor Logo" className="w-full h-full object-contain" />
+            </Link>
+          </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
             Welcome Back
           </h1>
