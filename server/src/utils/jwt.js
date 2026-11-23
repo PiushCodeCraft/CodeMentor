@@ -38,12 +38,12 @@ export const generateTokens = (user) => {
 export const setTokenCookies = (res, accessToken, refreshToken) => {
   const isProduction = env.NODE_ENV === 'production';
 
-  const cookieOptions = {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? 'none' : 'lax',
-    path: '/',
-  };
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+  path: '/',
+};
 
   if (accessToken) {
     res.cookie('accessToken', accessToken, {
@@ -65,12 +65,12 @@ export const setTokenCookies = (res, accessToken, refreshToken) => {
  */
 export const clearTokenCookies = (res) => {
   const isProduction = env.NODE_ENV === 'production';
-  const cookieOptions = {
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: isProduction ? 'none' : 'lax',
-    path: '/',
-  };
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+  path: '/',
+};
 
   res.clearCookie('accessToken', cookieOptions);
   res.clearCookie('refreshToken', cookieOptions);
