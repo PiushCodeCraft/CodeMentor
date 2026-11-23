@@ -57,6 +57,13 @@ const requestSchema = new mongoose.Schema(
       ref: 'User',
       default: null,
     },
+
+    // Link the review request to its live session.
+    sessionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Session',
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -69,7 +76,7 @@ const requestSchema = new mongoose.Schema(
   }
 );
 
-// Indexes defined in Section 9.3
+// Indexes
 requestSchema.index({ status: 1, tech: 1, createdAt: -1 });
 requestSchema.index({ title: 'text', description: 'text' });
 requestSchema.index({ student: 1 });
@@ -78,4 +85,3 @@ requestSchema.index({ mentor: 1 });
 const Request = mongoose.model('Request', requestSchema);
 
 export default Request;
-

@@ -41,7 +41,8 @@ export const setTokenCookies = (res, accessToken, refreshToken) => {
   const cookieOptions = {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? 'strict' : 'lax',
+    sameSite: isProduction ? 'none' : 'lax',
+    path: '/',
   };
 
   if (accessToken) {
@@ -67,7 +68,8 @@ export const clearTokenCookies = (res) => {
   const cookieOptions = {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? 'strict' : 'lax',
+    sameSite: isProduction ? 'none' : 'lax',
+    path: '/',
   };
 
   res.clearCookie('accessToken', cookieOptions);

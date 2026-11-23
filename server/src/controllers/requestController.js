@@ -348,6 +348,9 @@ export const acceptRequest = async (req, res) => {
       language,
       status: 'active',
     });
+    // Save the actual MongoDB Session ID in the Request.
+updatedRequest.sessionId = session._id;
+await updatedRequest.save();
 
     // Create Notification for the student
     await Notification.create({
