@@ -13,6 +13,9 @@ import Mentors from './pages/Mentors.jsx';
 import Leaderboard from './pages/Leaderboard.jsx';
 import Session from './pages/Session.jsx';
 import Admin from './pages/Admin.jsx';
+import Wallet from './pages/Wallet.jsx';
+import EarnTokens from './pages/EarnTokens.jsx';
+import TokenMarketplace from './pages/TokenMarketplace.jsx';
 import { useAuth } from './hooks/useAuth.js';
 
 function Home() {
@@ -203,7 +206,8 @@ export default function App() {
 
   useEffect(() => {
     fetchMe();
-  }, [fetchMe]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100">
@@ -227,6 +231,30 @@ export default function App() {
           <Route path="/requests/:id" element={<RequestDetail />} />
           <Route path="/mentors" element={<Mentors />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route
+            path="/wallet"
+            element={
+              <ProtectedRoute allowedRoles={['student', 'admin']}>
+                <Wallet />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/earn"
+            element={
+              <ProtectedRoute allowedRoles={['student', 'admin']}>
+                <EarnTokens />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/marketplace"
+            element={
+              <ProtectedRoute allowedRoles={['student', 'admin']}>
+                <TokenMarketplace />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/sessions/:id"
             element={

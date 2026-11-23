@@ -10,6 +10,9 @@ export const useAuth = () => {
     register,
     logout,
     fetchMe,
+    refreshUser,
+    updateCredits,
+    syncWallet,
     updateProfile,
     clearError,
   } = useAuthStore();
@@ -26,6 +29,9 @@ export const useAuth = () => {
     register,
     logout,
     fetchMe,
+    refreshUser,
+    updateCredits,
+    syncWallet,
     updateProfile,
     clearError,
   };

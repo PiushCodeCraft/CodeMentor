@@ -125,6 +125,27 @@ export const registerSessionHandlers = (io, socket) => {
   });
 
   /**
+   * language:change - Client switches language in editor
+   * Broadcasts to other participants and updates session language in DB
+   */
+  socket.on('language:change', async ({ sessionId, language }) => {
+    if (!sessionId || !language) return;
+
+    const roomName = `session:${sessionId}`;
+    socket.to(roomName).emit('language:change', {
+      sessionId,
+      language,
+      updatedBy: currentUser.userId,
+    });
+
+    try {
+      await Session.findByIdAndUpdate(sessionId, { language });
+    } catch (err) {
+      console.error(`Failed to update session language for ${sessionId}:`, err);
+    }
+  });
+
+  /**
    * chat:send - Client sends real-time chat message
    */
   socket.on('chat:send', async ({ sessionId, text }, callback) => {

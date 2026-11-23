@@ -70,6 +70,13 @@ export const initSocket = (httpServer) => {
 
   io.on('connection', (socket) => {
     console.log(`🔌 Socket connected: ${socket.id} (User: ${socket.user?.userId})`);
+
+    // Automatically join user's private room for real-time wallet & notification updates
+    if (socket.user?.userId) {
+      socket.join(`user:${socket.user.userId}`);
+      console.log(`👤 User joined private room: user:${socket.user.userId}`);
+    }
+
     registerSessionHandlers(io, socket);
 
     socket.on('disconnect', (reason) => {
@@ -84,9 +91,6 @@ export const initSocket = (httpServer) => {
  * Get initialized Socket.io instance
  */
 export const getIO = () => {
-  if (!io) {
-    throw new Error('Socket.io has not been initialized yet.');
-  }
   return io;
 };
 

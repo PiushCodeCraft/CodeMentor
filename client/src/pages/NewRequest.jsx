@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createReviewRequest } from '../api/requests.js';
 import { useAuth } from '../hooks/useAuth.js';
+import InsufficientTokensModal from '../components/InsufficientTokensModal.jsx';
 
 export default function NewRequest() {
-  const { user } = useAuth();
+  const { user, updateCredits, syncWallet } = useAuth();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -17,6 +18,7 @@ export default function NewRequest() {
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showInsufficientModal, setShowInsufficientModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +30,7 @@ export default function NewRequest() {
     }
 
     if (price > (user?.credits || 0)) {
-      setError(`You do not have enough credits. Current balance: ${user?.credits || 0} credits.`);
+      setShowInsufficientModal(true);
       return;
     }
 
@@ -49,13 +51,24 @@ export default function NewRequest() {
         price: Number(price),
       });
 
+      const updatedCredits = res.availableBalance ?? res.credits;
+      if (typeof updatedCredits === 'number') {
+        updateCredits(updatedCredits);
+      } else {
+        syncWallet();
+      }
+
       if (res.request?._id) {
         navigate(`/requests/${res.request._id}`);
       } else {
         navigate('/requests');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to submit review request.');
+      if (err.response?.data?.code === 'INSUFFICIENT_TOKENS') {
+        setShowInsufficientModal(true);
+      } else {
+        setError(err.response?.data?.message || 'Failed to submit review request.');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -89,6 +102,22 @@ export default function NewRequest() {
           {error}
         </div>
       )}
+
+      {/* AI Pre-Review Notice Banner (Phase 8) */}
+      <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-2xl p-4 flex items-center justify-between gap-4 text-xs">
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">🤖</span>
+          <div>
+            <span className="font-bold text-indigo-700 block">Instant AI Pre-Review Included</span>
+            <span className="text-slate-400 text-[11px]">
+              Your code snippet will be automatically analyzed for syntax bugs, edge cases, and optimization tips to give your mentor a head start.
+            </span>
+          </div>
+        </div>
+        <span className="hidden sm:inline-block px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-indigo-600 text-white tracking-wider shrink-0 shadow-sm">
+          Auto AI Scan
+        </span>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
         {/* Title */}
@@ -218,10 +247,26 @@ export default function NewRequest() {
             disabled={submitting}
             className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 transition text-sm cursor-pointer flex items-center gap-2"
           >
-            {submitting ? 'Submitting Request...' : 'Publish Review Request'}
+            {submitting ? (
+              <>
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>Scanning Code &amp; Publishing...</span>
+              </>
+            ) : (
+              <span>Publish Review Request</span>
+            )}
           </button>
         </div>
       </form>
+
+      {/* Insufficient Token Balance Modal Experience */}
+      <InsufficientTokensModal
+        isOpen={showInsufficientModal}
+        onClose={() => setShowInsufficientModal(false)}
+        currentBalance={user?.credits || 0}
+        requiredAmount={price}
+        featureName="offer this bounty on your review request"
+      />
     </div>
   );
 }

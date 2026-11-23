@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import Transaction from '../models/Transaction.js';
 import {
   generateTokens,
   setTokenCookies,
@@ -31,6 +32,25 @@ export const register = async (req, res) => {
       skills: skills || [],
       bio: bio || '',
     });
+
+    // Record registration bonus transaction for new student wallet auditability
+    if (newUser.credits > 0) {
+      try {
+        await Transaction.create({
+          user: newUser._id,
+          to: newUser._id,
+          from: null,
+          amount: newUser.credits,
+          previousBalance: 0,
+          newBalance: newUser.credits,
+          description: 'Welcome Bonus: Initial platform credits upon registration',
+          type: 'REGISTRATION_BONUS',
+          status: 'completed',
+        });
+      } catch (txErr) {
+        console.warn('Failed to log registration transaction:', txErr.message);
+      }
+    }
 
     // Generate tokens & set cookies
     const { accessToken, refreshToken } = generateTokens(newUser);

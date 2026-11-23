@@ -91,12 +91,11 @@ export const createReview = async (req, res) => {
         });
       }
 
-      // 6. Notify mentor about review and bounty transfer
-      const bountyText = session.request?.price > 0 ? ` + ${session.request.price} credits` : '';
+      // 6. Notify mentor about review and rating
       await Notification.create({
         user: mentor._id,
-        type: 'credit_transfer',
-        message: `${req.user.name} rated your session ${rating}★${bountyText}!`,
+        type: 'session_completed',
+        message: `${req.user.name} rated your session ${rating}★!`,
         link: '/profile',
       });
     }
@@ -107,7 +106,7 @@ export const createReview = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: 'Review submitted successfully. Mentor reputation and credits updated.',
+      message: 'Review submitted successfully. Mentor rating and reputation updated.',
       review: populatedReview,
     });
   } catch (error) {

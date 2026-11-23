@@ -12,6 +12,7 @@ import CodeEditor from '../components/CodeEditor.jsx';
 import ChatBox from '../components/ChatBox.jsx';
 import CommentPanel from '../components/CommentPanel.jsx';
 import ReviewModal from '../components/ReviewModal.jsx';
+import AiPreReviewCard from '../components/AiPreReviewCard.jsx';
 import { fetchSessionReview } from '../api/reviews.js';
 import api from '../api/axios.js';
 
@@ -131,18 +132,34 @@ export default function Session() {
       );
     };
 
+    // Listen for synchronized language change
+    const handleLanguageChangeBroadcast = (data) => {
+      if (data.sessionId === id && data.language) {
+        setLanguage(data.language);
+      }
+    };
+
     socket.on('presence:update', handlePresenceUpdate);
     socket.on('session:end', handleSessionEnded);
     socket.on('comment:added', handleCommentAdded);
     socket.on('comment:resolved', handleCommentResolved);
+    socket.on('language:change', handleLanguageChangeBroadcast);
 
     return () => {
       socket.off('presence:update', handlePresenceUpdate);
       socket.off('session:end', handleSessionEnded);
       socket.off('comment:added', handleCommentAdded);
       socket.off('comment:resolved', handleCommentResolved);
+      socket.off('language:change', handleLanguageChangeBroadcast);
     };
   }, [socket, isConnected, id]);
+
+  const handleLanguageChange = (newLang) => {
+    setLanguage(newLang);
+    if (socket && id) {
+      socket.emit('language:change', { sessionId: id, language: newLang });
+    }
+  };
 
   const handleEndSession = async () => {
     if (!window.confirm('Are you sure you want to end this review session?')) {
@@ -275,7 +292,7 @@ export default function Session() {
           {/* Language Selector */}
           <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={(e) => handleLanguageChange(e.target.value)}
             disabled={isCompleted}
             className="px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-mono"
           >
@@ -379,9 +396,11 @@ export default function Session() {
             sessionId={id}
             initialCode={session.codeSnapshot || ''}
             language={language}
+            onLanguageChange={handleLanguageChange}
             isReadOnly={isCompleted}
             socket={socket}
             currentUserId={user?._id}
+            currentUser={user}
             comments={comments}
             highlightedLine={selectedLine}
             onSelectLine={(line) => setSelectedLine(line)}
@@ -448,28 +467,26 @@ export default function Session() {
               ) : activeSidebarTab === 'chat' ? (
                 <ChatBox sessionId={id} socket={socket} currentUser={user} />
               ) : (
-                <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 h-[550px] overflow-y-auto">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                    <span className="text-xs font-bold text-slate-100 flex items-center gap-1.5">
-                      <span>🤖</span> AI Pre-Review Insights
-                    </span>
-                    <span className="text-[10px] text-cyan-600 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">
-                      Phase 8
-                    </span>
-                  </div>
-                  {session.request?.aiSummary ? (
-                    <div className="text-xs text-slate-300 whitespace-pre-wrap leading-relaxed font-sans">
-                      {session.request.aiSummary}
-                    </div>
+                <div className="h-[550px] overflow-y-auto pr-1">
+                  {session.request ? (
+                    <AiPreReviewCard
+                      requestId={session.request?._id || session.request}
+                      aiSummary={session.request?.aiSummary}
+                      onAiSummaryUpdated={(newSummary) => {
+                        setSession((prev) => {
+                          if (!prev) return prev;
+                          const reqObj = typeof prev.request === 'object' ? prev.request : { _id: prev.request };
+                          return {
+                            ...prev,
+                            request: { ...reqObj, aiSummary: newSummary },
+                          };
+                        });
+                      }}
+                      isMentor={isMentor}
+                    />
                   ) : (
-                    <div className="text-center py-10 space-y-2 text-xs text-slate-400">
-                      <p>No AI pre-review found for this request.</p>
-                      <Link
-                        to={`/requests/${session.request?._id || session.request}`}
-                        className="text-indigo-600 hover:underline inline-block text-xs"
-                      >
-                        View Request Page &rarr;
-                      </Link>
+                    <div className="text-center py-10 space-y-2 text-xs text-slate-400 bg-slate-900 border border-slate-800 rounded-xl p-4">
+                      <p>No associated request found for this session.</p>
                     </div>
                   )}
                 </div>

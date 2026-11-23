@@ -2,6 +2,10 @@ import Session from '../models/Session.js';
 import Request from '../models/Request.js';
 import Message from '../models/Message.js';
 import Notification from '../models/Notification.js';
+import { executeSessionCode } from '../services/sessionExecutionService.js';
+
+// Map: sessionId -> AbortController to manage active execution and stop requests
+export const activeSessionExecutions = new Map();
 
 /**
  * Get session details by ID (Participant check: Student or Mentor)
@@ -201,6 +205,180 @@ export const getSessionMessages = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to retrieve session messages.',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Execute code in a collaborative live session
+ * POST /api/sessions/:id/run
+ */
+export const runSessionCode = async (req, res) => {
+  const { id } = req.params;
+  const { code = '', language = 'javascript', stdin = '' } = req.body;
+  const userId = req.user._id.toString();
+
+  try {
+    const session = await Session.findById(id);
+    if (!session) {
+      return res.status(404).json({
+        success: false,
+        message: 'Session not found.',
+      });
+    }
+
+    const isStudent = session.student.toString() === userId;
+    const isMentor = session.mentor.toString() === userId;
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isStudent && !isMentor && !isAdmin) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied: You are not an authorized participant in this session.',
+      });
+    }
+
+    // Prevent duplicate execution requests in the same session
+    if (activeSessionExecutions.has(id)) {
+      return res.status(409).json({
+        success: false,
+        message: 'Code is currently running in this session. Please wait or stop the ongoing execution.',
+      });
+    }
+
+    // Optionally update session codeSnapshot & language
+    if (typeof code === 'string') {
+      session.codeSnapshot = code;
+    }
+    if (language) {
+      session.language = language;
+    }
+    await session.save();
+
+    // Create execution abort controller
+    const controller = new AbortController();
+    activeSessionExecutions.set(id, controller);
+
+    const io = req.app.get('io');
+    const roomName = `session:${id}`;
+
+    // Broadcast execution start to both participants in the session
+    if (io) {
+      io.to(roomName).emit('code:run_start', {
+        sessionId: id,
+        language,
+        initiatedBy: {
+          userId,
+          name: req.user.name || 'Participant',
+          role: req.user.role,
+        },
+      });
+    }
+
+    let executionResult;
+    try {
+      executionResult = await executeSessionCode({
+        code,
+        language,
+        stdin,
+        signal: controller.signal,
+      });
+    } finally {
+      activeSessionExecutions.delete(id);
+    }
+
+    // Attach participant info
+    executionResult.executedBy = {
+      userId,
+      name: req.user.name || 'Participant',
+      role: req.user.role,
+    };
+
+    // Broadcast execution result to both participants in the session room
+    if (io) {
+      io.to(roomName).emit('code:run_result', {
+        sessionId: id,
+        result: executionResult,
+        executedBy: executionResult.executedBy,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      execution: executionResult,
+    });
+  } catch (error) {
+    activeSessionExecutions.delete(id);
+    console.error('Run session code error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to execute code.',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Stop an ongoing execution in a live session
+ * POST /api/sessions/:id/stop-run
+ */
+export const stopSessionCode = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user._id.toString();
+
+  try {
+    const session = await Session.findById(id);
+    if (!session) {
+      return res.status(404).json({
+        success: false,
+        message: 'Session not found.',
+      });
+    }
+
+    const isStudent = session.student.toString() === userId;
+    const isMentor = session.mentor.toString() === userId;
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isStudent && !isMentor && !isAdmin) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access denied.',
+      });
+    }
+
+    if (activeSessionExecutions.has(id)) {
+      const controller = activeSessionExecutions.get(id);
+      controller.abort();
+      activeSessionExecutions.delete(id);
+
+      const io = req.app.get('io');
+      if (io) {
+        io.to(`session:${id}`).emit('code:run_stopped', {
+          sessionId: id,
+          stoppedBy: {
+            userId,
+            name: req.user.name || 'Participant',
+            role: req.user.role,
+          },
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Execution stopped successfully.',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'No running execution found for this session.',
+    });
+  } catch (error) {
+    console.error('Stop session code error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to stop code execution.',
       error: error.message,
     });
   }

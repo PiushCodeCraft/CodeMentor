@@ -5,12 +5,13 @@ const getSocketUrl = () => {
   return import.meta.env.VITE_API_URL || 'http://localhost:5000';
 };
 
-export const useSocket = () => {
+export const useSocket = (enabled = true) => {
   const socketRef = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
   const [socketError, setSocketError] = useState(null);
 
   useEffect(() => {
+    if (!enabled) return;
     const socketUrl = getSocketUrl();
 
     // Initialize socket connection with credentials (cookies)

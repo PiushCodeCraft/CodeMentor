@@ -30,3 +30,13 @@ export const markAllNotificationsAsRead = async () => {
   return response.data;
 };
 
+export const runSessionCode = async (sessionId, { code, language, stdin = '' }) => {
+  const response = await api.post(`/sessions/${sessionId}/run`, { code, language, stdin });
+  return response.data;
+};
+
+export const stopSessionCode = async (sessionId) => {
+  const response = await api.post(`/sessions/${sessionId}/stop-run`);
+  return response.data;
+};
+

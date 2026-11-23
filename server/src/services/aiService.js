@@ -28,7 +28,7 @@ export const analyzeCodeHeuristically = ({ title, description, code, tech = [] }
     bugs.push('React JSX list rendered via `.map()` appears to be missing a unique `key` prop on the top-level returned element.');
   }
 
-  if (lowerCode.includes('setstate(') || lowerCode.includes('set') && lowerCode.includes('prev =>')) {
+  if (lowerCode.includes('setstate(') || (lowerCode.includes('set') && lowerCode.includes('prev =>'))) {
     // State update pattern is ok
   } else if (lowerCode.includes('.push(') && (lowerCode.includes('state') || lowerCode.includes('items') || lowerCode.includes('list'))) {
     bugs.push('Direct array mutation detected (e.g. `.push()`). In reactive frameworks like React, mutating state directly prevents re-renders.');
@@ -36,6 +36,14 @@ export const analyzeCodeHeuristically = ({ title, description, code, tech = [] }
 
   if (lowerCode.includes('async ') && !lowerCode.includes('try') && !lowerCode.includes('.catch(')) {
     bugs.push('Asynchronous function lacks `try...catch` block or `.catch()` rejection handler, risking unhandled promise rejections.');
+  }
+
+  if (lowerCode.includes('setinterval(') && !lowerCode.includes('clearinterval(')) {
+    bugs.push('`setInterval` used without a corresponding `clearInterval`. In React components or Node servers, this risks memory leaks.');
+  }
+
+  if (lowerCode.includes('dangerouslysetinnerhtml') || lowerCode.includes('eval(')) {
+    bugs.push('Potentially unsafe execution detected (`eval` or `dangerouslySetInnerHTML`), introducing cross-site scripting (XSS) vulnerabilities.');
   }
 
   if (bugs.length === 0) {
@@ -57,6 +65,10 @@ export const analyzeCodeHeuristically = ({ title, description, code, tech = [] }
 
   if (lowerCode.includes('any') && (techStr.toLowerCase().includes('typescript') || lowerCode.includes(': any'))) {
     risks.push('Use of TypeScript `any` type bypasses type safety. Consider replacing with specific interfaces or `unknown`.');
+  }
+
+  if (lowerCode.includes('select *') || lowerCode.includes('where ') && lowerCode.includes('${')) {
+    risks.push('Dynamic query string interpolation detected. Use parameterized queries or ORM bindings to prevent SQL/NoSQL injection.');
   }
 
   if (codeLength > 80) {
@@ -101,6 +113,56 @@ export const analyzeCodeHeuristically = ({ title, description, code, tech = [] }
 };
 
 /**
+ * Parse markdown summary into structured JSON objects
+ */
+export const parseAiSummary = (markdown = '') => {
+  if (!markdown || typeof markdown !== 'string') {
+    return { context: '', bugs: [], risks: [], improvements: [], raw: '' };
+  }
+
+  const lines = markdown.split('\n');
+  let currentSection = 'intro';
+  const bugs = [];
+  const risks = [];
+  const improvements = [];
+  let context = '';
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    if (line.includes('Potential Bugs') || line.includes('Bugs & Issues')) {
+      currentSection = 'bugs';
+      continue;
+    } else if (line.includes('Risks & Edge Cases') || line.includes('Risks')) {
+      currentSection = 'risks';
+      continue;
+    } else if (line.includes('Recommended Improvements') || line.includes('Improvements')) {
+      currentSection = 'improvements';
+      continue;
+    } else if (line.startsWith('**Context**:')) {
+      context = line.replace('**Context**:', '').trim();
+      continue;
+    }
+
+    if (line.startsWith('- ') || line.startsWith('* ')) {
+      const item = line.substring(2).trim();
+      if (currentSection === 'bugs') bugs.push(item);
+      else if (currentSection === 'risks') risks.push(item);
+      else if (currentSection === 'improvements') improvements.push(item);
+    }
+  }
+
+  return {
+    context,
+    bugs,
+    risks,
+    improvements,
+    raw: markdown,
+  };
+};
+
+/**
  * Generate AI Code Pre-Review
  * Calls Google Gemini API if GEMINI_API_KEY is available;
  * otherwise gracefully falls back to the intelligent heuristic analyzer.
@@ -125,7 +187,7 @@ Tech: ${tech.join(', ')}
 
 Code:
 \`\`\`
-${code.slice(0, 4000)}
+${(code || '').slice(0, 4000)}
 \`\`\`
 
 Provide a concise, helpful summary in markdown format with these exact headings:
@@ -141,7 +203,7 @@ Keep it actionable, polite, and under 250 words.`;
 
       // Call Google Gemini API
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s timeout
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
@@ -180,5 +242,5 @@ Keep it actionable, polite, and under 250 words.`;
 export default {
   generateCodeReview,
   analyzeCodeHeuristically,
+  parseAiSummary,
 };
-

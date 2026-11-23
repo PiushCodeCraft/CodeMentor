@@ -13,6 +13,7 @@ import commentRoutes from './routes/comments.js';
 import reviewRoutes from './routes/reviews.js';
 import leaderboardRoutes from './routes/leaderboard.js';
 import adminRoutes from './routes/admin.js';
+import tokenRoutes from './routes/tokens.js';
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/tokens', tokenRoutes);
 app.use('/api/mentors', (req, res, next) => {
   // Direct redirect to /api/users/mentors or reuse route
   req.url = '/mentors';

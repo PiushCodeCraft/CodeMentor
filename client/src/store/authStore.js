@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import api from '../api/axios.js';
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
   user: null,
   isAuthenticated: false,
   isLoading: true,
@@ -11,9 +11,12 @@ export const useAuthStore = create((set) => ({
 
   /**
    * Verify session and load authenticated user
+   * Sets isLoading only on initial cold boot to prevent ProtectedRoute unmount flickers
    */
   fetchMe: async () => {
-    set({ isLoading: true, error: null });
+    if (!get().user) {
+      set({ isLoading: true, error: null });
+    }
     try {
       const res = await api.get('/users/me');
       set({
@@ -27,6 +30,52 @@ export const useAuthStore = create((set) => ({
         isAuthenticated: false,
         isLoading: false,
       });
+    }
+  },
+
+  /**
+   * Background silent refresh of user profile without setting isLoading: true
+   */
+  refreshUser: async () => {
+    try {
+      const res = await api.get('/users/me');
+      if (res.data?.user) {
+        set({
+          user: res.data.user,
+          isAuthenticated: true,
+        });
+      }
+    } catch {
+      // Ignore background refresh errors
+    }
+  },
+
+  /**
+   * Direct atomic credit update for instantaneous UI sync
+   */
+  updateCredits: (credits) => {
+    set((state) => ({
+      user: state.user ? { ...state.user, credits } : null,
+    }));
+  },
+
+  /**
+   * Synchronize wallet balance directly with backend wallet service
+   * Only runs for students/admins to avoid 403s on mentor accounts
+   */
+  syncWallet: async () => {
+    const currentUser = get().user;
+    if (!currentUser || currentUser.role === 'mentor') return;
+    try {
+      const res = await api.get('/tokens/wallet');
+      const balance = res.data?.availableBalance ?? res.data?.balance ?? res.data?.wallet?.balance ?? res.data?.credits;
+      if (typeof balance === 'number') {
+        set((state) => ({
+          user: state.user ? { ...state.user, credits: balance } : null,
+        }));
+      }
+    } catch {
+      // Ignore background sync error
     }
   },
 

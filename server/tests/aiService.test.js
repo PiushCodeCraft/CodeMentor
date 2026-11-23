@@ -5,6 +5,7 @@ import app from '../src/app.js';
 import {
   generateCodeReview,
   analyzeCodeHeuristically,
+  parseAiSummary,
 } from '../src/services/aiService.js';
 
 describe('AI Pre-Review Suite (Phase 8)', () => {
@@ -69,6 +70,38 @@ describe('AI Pre-Review Suite (Phase 8)', () => {
 
     assert.ok(typeof summary === 'string');
     assert.ok(summary.includes('AI Pre-Review Summary'));
+  });
+
+  it('analyzeCodeHeuristically should flag unclosed intervals and query injection patterns', () => {
+    const summary = analyzeCodeHeuristically({
+      title: 'Poll server',
+      code: `setInterval(() => { fetch('/api/data'); }, 1000); const query = "SELECT * FROM users WHERE id = " + \`\${userId}\`;`,
+      tech: ['Node.js', 'SQL'],
+    });
+
+    assert.ok(summary.includes('setInterval'));
+    assert.ok(summary.includes('Dynamic query string interpolation'));
+  });
+
+  it('parseAiSummary should partition markdown output into structured arrays', () => {
+    const sample = `### 🤖 CodeMentor AI Pre-Review Summary
+**Context**: *Testing* (JavaScript)
+
+#### 🐛 Potential Bugs & Issues
+- Bug item 1
+- Bug item 2
+
+#### ⚠️ Risks & Edge Cases
+- Risk item 1
+
+#### 💡 Recommended Improvements
+- Tip item 1`;
+
+    const parsed = parseAiSummary(sample);
+    assert.strictEqual(parsed.bugs.length, 2);
+    assert.strictEqual(parsed.risks.length, 1);
+    assert.strictEqual(parsed.improvements.length, 1);
+    assert.strictEqual(parsed.bugs[0], 'Bug item 1');
   });
 
   it('POST /api/requests/:id/ai-review should reject unauthenticated requests with 401', async () => {

@@ -4,6 +4,8 @@ import {
   getMySessions,
   endSession,
   getSessionMessages,
+  runSessionCode,
+  stopSessionCode,
 } from '../controllers/sessionController.js';
 import {
   getSessionComments,
@@ -33,5 +35,11 @@ router.get('/:id/comments', getSessionComments);
 
 // POST /api/sessions/:id/comments - Add inline comment
 router.post('/:id/comments', validate(createCommentSchema), addSessionComment);
+
+// POST /api/sessions/:id/run - Execute session code (Participant check)
+router.post('/:id/run', runSessionCode);
+
+// POST /api/sessions/:id/stop-run - Stop active session code execution (Participant check)
+router.post('/:id/stop-run', stopSessionCode);
 
 export default router;

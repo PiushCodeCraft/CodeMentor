@@ -79,10 +79,17 @@ export default function Profile() {
           <span className="text-xs uppercase font-semibold text-slate-400">Role</span>
           <p className="text-sm font-medium text-indigo-600 capitalize mt-1">{user?.role}</p>
         </div>
-        <div>
-          <span className="text-xs uppercase font-semibold text-slate-400">Wallet Balance</span>
-          <p className="text-sm font-medium text-amber-600 mt-1">🪙 {user?.credits ?? 0} credits</p>
-        </div>
+        {user?.role === 'mentor' ? (
+          <div>
+            <span className="text-xs uppercase font-semibold text-slate-400">Total Reviews</span>
+            <p className="text-sm font-medium text-emerald-400 mt-1">⭐ {user?.ratingCount || 0} reviews</p>
+          </div>
+        ) : (
+          <div>
+            <span className="text-xs uppercase font-semibold text-slate-400">Wallet Balance</span>
+            <p className="text-sm font-medium text-amber-600 mt-1">🪙 {user?.credits ?? 0} credits</p>
+          </div>
+        )}
       </div>
 
       {/* Mentor Reputation & Badges Card */}

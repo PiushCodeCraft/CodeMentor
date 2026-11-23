@@ -71,15 +71,38 @@ export default function Dashboard() {
       {/* Role-Specific Metric Cards */}
       {user?.role === 'student' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-slate-400 text-sm font-medium">Credits Balance</span>
-              <span className="text-amber-600 text-xl">🪙</span>
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-slate-400 text-sm font-medium">Tokens &amp; Wallet</span>
+                <span className="text-amber-600 text-xl">🪙</span>
+              </div>
+              <div className="text-3xl font-extrabold text-slate-100">{user?.credits ?? 0} <span className="text-sm font-normal text-slate-400">tokens</span></div>
+              <p className="text-xs text-slate-400 mt-1">
+                Spend on review bounties or earn more through tasks.
+              </p>
             </div>
-            <div className="text-3xl font-extrabold text-slate-100">{user?.credits ?? 0}</div>
-            <p className="text-xs text-slate-400 mt-2">
-              Use credits to post code review requests.
-            </p>
+            <div className="pt-4 flex items-center gap-2 text-xs">
+              <Link
+                to="/earn"
+                className="flex-1 py-1.5 px-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-center transition shadow-sm"
+              >
+                ⚡ Earn Free
+              </Link>
+              <Link
+                to="/marketplace"
+                className="flex-1 py-1.5 px-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-center transition shadow-sm"
+              >
+                💳 Refill
+              </Link>
+              <Link
+                to="/wallet"
+                className="py-1.5 px-2 bg-slate-950 hover:bg-slate-800 text-slate-300 rounded-lg text-center border border-slate-800"
+                title="Wallet details"
+              >
+                Ledger
+              </Link>
+            </div>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm">
@@ -156,11 +179,11 @@ export default function Dashboard() {
             </div>
 
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm">
-              <span className="text-slate-400 text-sm font-medium">Credits Earned</span>
-              <div className="text-3xl font-extrabold text-amber-700 mt-1">
-                {user?.credits ?? 0}
+              <span className="text-slate-400 text-sm font-medium">Reviews Received</span>
+              <div className="text-3xl font-extrabold text-emerald-400 mt-1">
+                {user?.ratingCount ?? 0}
               </div>
-              <p className="text-xs text-slate-400 mt-1">Total reward credits</p>
+              <p className="text-xs text-slate-400 mt-1">Student verified reviews</p>
             </div>
 
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm">

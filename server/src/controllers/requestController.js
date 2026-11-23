@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import Session from '../models/Session.js';
 import Notification from '../models/Notification.js';
 import { generateCodeReview } from '../services/aiService.js';
+import { debitTokens, creditTokens, InsufficientTokensError } from '../services/walletService.js';
 
 /**
  * Create a new review request (Student only)
@@ -15,17 +16,27 @@ export const createRequest = async (req, res) => {
 
     // Check credits wallet balance if price is specified
     const requestPrice = price || 0;
-    if (requestPrice > 0 && student.credits < requestPrice) {
-      return res.status(400).json({
-        success: false,
-        message: `Insufficient credits. You have ${student.credits} credits, but this request requires ${requestPrice} credits.`,
-      });
-    }
-
-    // Deduct credits if price > 0
     if (requestPrice > 0) {
-      student.credits -= requestPrice;
-      await student.save();
+      try {
+        await debitTokens({
+          userId: student._id,
+          amount: requestPrice,
+          type: 'SESSION_USAGE',
+          description: `Bounty reserved for review request: "${title}"`,
+          relatedActivityType: 'Request',
+        });
+      } catch (debitErr) {
+        if (debitErr instanceof InsufficientTokensError || debitErr.code === 'INSUFFICIENT_TOKENS') {
+          return res.status(400).json({
+            success: false,
+            code: 'INSUFFICIENT_TOKENS',
+            message: debitErr.message,
+            currentBalance: debitErr.currentBalance || student.credits || 0,
+            requiredAmount: requestPrice,
+          });
+        }
+        throw debitErr;
+      }
     }
 
     // Phase 8: Generate AI Pre-Review Summary (gracefully fallback if fails)
@@ -64,6 +75,8 @@ export const createRequest = async (req, res) => {
       success: true,
       message: 'Review request created successfully.',
       request: populatedRequest,
+      credits: populatedRequest.student?.credits,
+      availableBalance: populatedRequest.student?.credits,
     });
   } catch (error) {
     console.error('Create request error:', error);
@@ -232,12 +245,17 @@ export const cancelRequest = async (req, res) => {
     }
 
     // Refund credits to student wallet if price was paid
+    let refundedBalance = req.user.credits;
     if (request.price > 0) {
-      const student = await User.findById(request.student);
-      if (student) {
-        student.credits += request.price;
-        await student.save();
-      }
+      const refundResult = await creditTokens({
+        userId: request.student,
+        amount: request.price,
+        type: 'REFUND',
+        description: `Refund bounty for cancelled review request: "${request.title}"`,
+        relatedActivityId: request._id,
+        relatedActivityType: 'Request',
+      });
+      refundedBalance = refundResult.newBalance;
     }
 
     request.status = 'cancelled';
@@ -247,6 +265,8 @@ export const cancelRequest = async (req, res) => {
       success: true,
       message: 'Review request cancelled successfully. Any allocated credits have been refunded.',
       request,
+      credits: refundedBalance,
+      availableBalance: refundedBalance,
     });
   } catch (error) {
     console.error('Cancel request error:', error);

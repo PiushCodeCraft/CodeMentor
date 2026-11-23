@@ -7,7 +7,7 @@ import AiPreReviewCard from '../components/AiPreReviewCard.jsx';
 
 export default function RequestDetail() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, updateCredits, syncWallet } = useAuth();
   const navigate = useNavigate();
 
   const [request, setRequest] = useState(null);
@@ -62,6 +62,12 @@ export default function RequestDetail() {
     try {
       const res = await cancelReviewRequest(id);
       setActionMessage(res.message || 'Request cancelled successfully.');
+      const updatedCredits = res.availableBalance ?? res.credits;
+      if (typeof updatedCredits === 'number') {
+        updateCredits(updatedCredits);
+      } else {
+        syncWallet();
+      }
       loadRequest();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to cancel request.');

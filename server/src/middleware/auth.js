@@ -61,3 +61,6 @@ export const auth = async (req, res, next) => {
   }
 };
 
+export const authenticate = auth;
+
+
