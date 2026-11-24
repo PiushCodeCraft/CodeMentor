@@ -3,6 +3,7 @@ import { useAuth } from '../hooks/useAuth.js';
 
 export default function Profile() {
   const { user, updateProfile } = useAuth();
+  const isAdmin = user?.role?.toLowerCase() === 'admin';
 
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
@@ -70,7 +71,11 @@ export default function Profile() {
       )}
 
       {/* Account Info Readonly Card */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div
+        className={`bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm grid grid-cols-1 ${
+          isAdmin ? 'sm:grid-cols-2' : 'sm:grid-cols-3'
+        } gap-4`}
+      >
         <div>
           <span className="text-xs uppercase font-semibold text-slate-400">Email Address</span>
           <p className="text-sm font-medium text-slate-200 mt-1">{user?.email}</p>
@@ -79,12 +84,7 @@ export default function Profile() {
           <span className="text-xs uppercase font-semibold text-slate-400">Role</span>
           <p className="text-sm font-medium text-indigo-600 capitalize mt-1">{user?.role}</p>
         </div>
-        {user?.role === 'mentor' ? (
-          <div>
-            <span className="text-xs uppercase font-semibold text-slate-400">Total Reviews</span>
-            <p className="text-sm font-medium text-emerald-400 mt-1">⭐ {user?.ratingCount || 0} reviews</p>
-          </div>
-        ) : (
+        {!isAdmin && (
           <div>
             <span className="text-xs uppercase font-semibold text-slate-400">Wallet Balance</span>
             <p className="text-sm font-medium text-amber-600 mt-1">🪙 {user?.credits ?? 0} credits</p>

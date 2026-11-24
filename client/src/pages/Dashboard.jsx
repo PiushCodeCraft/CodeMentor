@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.js';
 import { fetchMySessions } from '../api/sessions.js';
+import Admin from './Admin.jsx';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -9,6 +10,9 @@ export default function Dashboard() {
   const [loadingSessions, setLoadingSessions] = useState(false);
 
   useEffect(() => {
+    // Admins have their own Command Center telemetry and don't load student/mentor sessions
+    if (user?.role === 'admin') return;
+
     const loadSessions = async () => {
       setLoadingSessions(true);
       try {
@@ -21,7 +25,12 @@ export default function Dashboard() {
       }
     };
     loadSessions();
-  }, []);
+  }, [user?.role]);
+
+  // If authenticated user is an administrator, display the Admin Command Center directly
+  if (user?.role === 'admin') {
+    return <Admin />;
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">

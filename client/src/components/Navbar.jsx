@@ -59,16 +59,14 @@ export default function Navbar() {
     { path: '/requests', label: 'Requests' },
     { path: '/mentors', label: 'Mentors' },
     { path: '/leaderboard', label: '🏆 Leaderboard' },
-    ...(!isMentor ? [
+    ...(isStudent ? [
       { path: '/earn', label: '⚡ Earn Tokens' },
       { path: '/marketplace', label: '💳 Marketplace' },
+      ...(isAuthenticated ? [{ path: '/wallet', label: '🪙 Wallet' }] : []),
     ] : []),
-    ...(isAuthenticated && !isMentor ? [
-      { path: '/wallet', label: '🪙 Wallet' },
-    ] : []),
-    ...(isAuthenticated && isAdmin
-      ? [{ path: '/admin', label: '🛡️ Admin Panel' }]
-      : []),
+    // ...(isAuthenticated && isAdmin
+    //   ? [{ path: '/admin', label: '🛡️ Admin Panel' }]
+    //   : []),
   ];
 
   const getRoleBadge = (role) => {
